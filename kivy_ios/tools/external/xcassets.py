@@ -673,24 +673,32 @@ def launchimage(image_xcassets, image_fn):
 
 
 def _buildimage(in_fn, out_fn, size, padcolor=None):
+
     im = Image.open(in_fn)
 
-    # read the first left/bottom pixel
+    # Read the first left/bottom pixel
     bgcolor = im.getpixel((0, 0))
 
-    # ensure the image fit in the destination size
-    if im.size[0] > size[0] or im.size[1] > size[1]:
-        f = max(im.size[0] / size[0], im.size[1] / size[1])
-        newsize = int(im.size[0] / f), int(im.size[1] / f)
-        im = im.resize(newsize)
+    # Calculate the scaling factor to fit the image within the destination size
+    scaling_factor = min(size[0] / im.size[0], size[1] / im.size[1])
 
-    # create final image
+    # Compute the new size while maintaining the aspect ratio
+    newsize = (int(im.size[0] * scaling_factor), int(im.size[1] * scaling_factor))
+
+    # Resize the image
+    im = im.resize(newsize, Image.ANTIALIAS)
+
+    # Create the final image with the background color
     outim = Image.new("RGB", size, bgcolor[:3])
-    x = (size[0] - im.size[0]) // 2
-    y = (size[1] - im.size[1]) // 2
+
+    # Compute the top-left coordinates to paste the resized image
+    x = (size[0] - newsize[0]) // 2
+    y = (size[1] - newsize[1]) // 2
+
+    # Paste the resized image onto the background
     outim.paste(im, (x, y))
 
-    # save the image
+    # Save the final image
     outim.save(out_fn)
 
 
