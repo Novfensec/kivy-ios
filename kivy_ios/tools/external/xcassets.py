@@ -686,7 +686,7 @@ def _buildimage(in_fn, out_fn, size, padcolor=None):
     newsize = (int(im.size[0] * scaling_factor), int(im.size[1] * scaling_factor))
 
     # Resize the image
-    im = im.resize(newsize, Image.ANTIALIAS)
+    im = im.resize(newsize, Image.LANCZOS)
 
     # Create the final image with the background color
     outim = Image.new("RGB", size, bgcolor[:3])
