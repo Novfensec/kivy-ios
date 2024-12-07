@@ -13,10 +13,10 @@ logger = logging.getLogger(__name__)
 
 
 class KiventCoreRecipe(CythonRecipe):
-    version = 'master'
-    url = 'https://github.com/kivy/kivent/archive/{version}.zip'
-    name = 'kivent_core'
-    depends = ['libffi', 'kivy']  # note: unsure if libffi is necessary here
+    version = "master"
+    url = "https://github.com/kivy/kivent/archive/{version}.zip"
+    name = "kivent_core"
+    depends = ["libffi", "kivy"]  # note: unsure if libffi is necessary here
     pre_build_ext = False
     subbuilddir = False
     cythonize = True
@@ -24,8 +24,7 @@ class KiventCoreRecipe(CythonRecipe):
 
     def get_recipe_env(self, plat):
         env = super(KiventCoreRecipe, self).get_recipe_env(plat)
-        env['CYTHONPATH'] = self.get_recipe(
-            'kivy', self.ctx).get_build_dir(plat)
+        env["CYTHONPATH"] = self.get_recipe("kivy", self.ctx).get_build_dir(plat)
         return env
 
     def get_build_dir(self, plat, sub=False):
@@ -35,7 +34,7 @@ class KiventCoreRecipe(CythonRecipe):
         """
         builddir = super(KiventCoreRecipe, self).get_build_dir(plat)
         if sub or self.subbuilddir:
-            core_build_dir = join(builddir, 'modules', 'core')
+            core_build_dir = join(builddir, "modules", "core")
             logger.info("Core build directory is located at {}".format(core_build_dir))
             return core_build_dir
         else:
@@ -78,11 +77,11 @@ class KiventCoreRecipe(CythonRecipe):
         build_env = self.get_recipe_env(plat)
 
         dest_dir = join(self.ctx.dist_dir, "root", "python")
-        build_env['PYTHONPATH'] = join(dest_dir, 'lib', 'python3.7', 'site-packages')
+        build_env["PYTHONPATH"] = join(dest_dir, "lib", "python3.7", "site-packages")
 
         # Add Architecture specific kivy path for 'import kivy' to PYTHONPATH
-        arch_kivy_path = self.get_recipe('kivy', self.ctx).get_build_dir(plat)
-        build_env['PYTHONPATH'] = join(build_env['PYTHONPATH'], ':', arch_kivy_path)
+        arch_kivy_path = self.get_recipe("kivy", self.ctx).get_build_dir(plat)
+        build_env["PYTHONPATH"] = join(build_env["PYTHONPATH"], ":", arch_kivy_path)
 
         # Make sure you call kivent_core/modules/core/setup.py
         subdir_path = self.get_build_dir(plat, sub=True)
@@ -94,7 +93,9 @@ class KiventCoreRecipe(CythonRecipe):
         logger.info("BUILD", self.ctx.build_dir)
         logger.info("INCLUDE", self.ctx.include_dir)
         logger.info("DISTDIR", self.ctx.dist_dir)
-        logger.info("ARCH KIVY LOC", self.get_recipe('kivy', self.ctx).get_build_dir(plat))
+        logger.info(
+            "ARCH KIVY LOC", self.get_recipe("kivy", self.ctx).get_build_dir(plat)
+        )
 
         shprint(hostpython, setup_path, "build_ext", "install", _env=build_env)
 

@@ -9,8 +9,7 @@ class IosRecipe(CythonRecipe):
     pbx_frameworks = ["MessageUI", "CoreMotion", "UIKit", "WebKit", "Photos"]
 
     def install(self):
-        self.install_python_package(
-            name=self.so_filename("ios"), is_dir=False)
+        self.install_python_package(name=self.so_filename("ios"), is_dir=False)
 
 
 recipe = IosRecipe()

@@ -15,16 +15,18 @@ def test_kivy():
 def test_audiostream():
     from audiostream import get_output
     from audiostream.sources.wave import SineSource
+
     stream = get_output(channels=2, rate=22050, buffersize=128)
     source = SineSource(stream, 220)
     source.start()
-    sleep(.5)
+    sleep(0.5)
     source.stop()
 
 
 def test_numpy():
     print("NPY: test import numpy")
     import numpy as np
+
     print("NPY: basic calculation")
     print(np.ones(10) * np.sin(2))
     print("NPY: access to random module")
@@ -33,7 +35,8 @@ def test_numpy():
     print(np.fft.fft(np.exp(2j * np.pi * np.arange(8) / 8)))
     print("NPY: access to linalg")
     from numpy import linalg as LA
-    a = np.array([[1., 2.], [3., 4.]])
+
+    a = np.array([[1.0, 2.0], [3.0, 4.0]])
     ainv = LA.inv(a)
     print(np.allclose(np.dot(a, ainv), np.eye(2)))
 
@@ -66,10 +69,7 @@ def run():
     print("")
     print("=== [ LIBS SUMMARY ] ===")
     print("")
-    print("{}/{} tests".format(
-        len(SUCCESS),
-        len(SUCCESS) + len(FAILED)
-    ))
+    print("{}/{} tests".format(len(SUCCESS), len(SUCCESS) + len(FAILED)))
     print("Success: ", ", ".join(SUCCESS))
     print("Failed: ", ", ".join(FAILED))
 

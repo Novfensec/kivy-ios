@@ -32,16 +32,23 @@ class ZbarLightRecipe(Recipe):
         self.biglink()
 
     def install(self):
-        source = next(pathlib.Path(
-            self.get_build_dir(list(self.platforms_to_build)[0]),
-            "build"
-        ).glob("lib.*")) / "zbarlight"
-        destination = next(pathlib.Path(
-            self.ctx.dist_dir,
-            "root",
-            "python3",
-            "lib"
-        ).glob("python3.*")) / "site-packages" / "zbarlight"
+        source = (
+            next(
+                pathlib.Path(
+                    self.get_build_dir(list(self.platforms_to_build)[0]), "build"
+                ).glob("lib.*")
+            )
+            / "zbarlight"
+        )
+        destination = (
+            next(
+                pathlib.Path(self.ctx.dist_dir, "root", "python3", "lib").glob(
+                    "python3.*"
+                )
+            )
+            / "site-packages"
+            / "zbarlight"
+        )
 
         shutil.rmtree(destination, ignore_errors=True)
         shutil.copytree(source, destination)

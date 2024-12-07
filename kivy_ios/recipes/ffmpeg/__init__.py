@@ -49,28 +49,32 @@ class FFMpegRecipe(Recipe):
             "--disable-programs",
             "--disable-doc",
             "--enable-pic",
-            "--enable-avresample"]
+            "--enable-avresample",
+        ]
 
         if "openssl.build_all" in self.ctx.state:
             options += [
                 "--enable-openssl",
                 "--enable-nonfree",
-                "--enable-protocol=https,tls_openssl"]
+                "--enable-protocol=https,tls_openssl",
+            ]
 
         build_env = plat.get_env()
         build_env["VERBOSE"] = "1"
         configure = sh.Command(join(self.build_dir, "configure"))
-        shprint(configure,
-                "--target-os=darwin",
-                "--arch={}".format(plat.arch),
-                "--cc={}".format(build_env["CC"]),
-                "--prefix={}/dist".format(self.build_dir),
-                "--extra-cflags={}".format(build_env["CFLAGS"]),
-                "--extra-cxxflags={}".format(build_env["CFLAGS"]),
-                "--extra-ldflags={}".format(build_env["LDFLAGS"]),
-                "--disable-x86asm",
-                *options,
-                _env=build_env)
+        shprint(
+            configure,
+            "--target-os=darwin",
+            "--arch={}".format(plat.arch),
+            "--cc={}".format(build_env["CC"]),
+            "--prefix={}/dist".format(self.build_dir),
+            "--extra-cflags={}".format(build_env["CFLAGS"]),
+            "--extra-cxxflags={}".format(build_env["CFLAGS"]),
+            "--extra-ldflags={}".format(build_env["LDFLAGS"]),
+            "--disable-x86asm",
+            *options,
+            _env=build_env
+        )
         """
         shprint(sh.sed,
                 "-i.bak",

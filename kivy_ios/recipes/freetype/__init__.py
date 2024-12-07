@@ -13,20 +13,22 @@ class FreetypeRecipe(Recipe):
     def build_platform(self, plat):
         build_env = plat.get_env()
         configure = sh.Command(join(self.build_dir, "configure"))
-        shprint(configure,
-                "CC={}".format(build_env["CC"]),
-                "LD={}".format(build_env["LD"]),
-                "CFLAGS={}".format(build_env["CFLAGS"]),
-                "LDFLAGS={}".format(build_env["LDFLAGS"]),
-                "--prefix=/",
-                "--host={}".format(plat.triple),
-                "--without-png",
-                "--without-bzip2",
-                "--without-fsspec",
-                "--without-harfbuzz",
-                "--without-old-mac-fonts",
-                "--enable-static=yes",
-                "--enable-shared=no")
+        shprint(
+            configure,
+            "CC={}".format(build_env["CC"]),
+            "LD={}".format(build_env["LD"]),
+            "CFLAGS={}".format(build_env["CFLAGS"]),
+            "LDFLAGS={}".format(build_env["LDFLAGS"]),
+            "--prefix=/",
+            "--host={}".format(plat.triple),
+            "--without-png",
+            "--without-bzip2",
+            "--without-fsspec",
+            "--without-harfbuzz",
+            "--without-old-mac-fonts",
+            "--enable-static=yes",
+            "--enable-shared=no",
+        )
         shprint(sh.make, "clean")
         shprint(sh.make, self.ctx.concurrent_make)
 

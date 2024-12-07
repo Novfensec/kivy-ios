@@ -12,15 +12,23 @@ class LibSDL2ImageRecipe(Recipe):
     pbx_frameworks = ["CoreGraphics", "MobileCoreServices"]
 
     def build_platform(self, plat):
-        shprint(sh.xcodebuild, self.ctx.concurrent_xcodebuild,
-                "ONLY_ACTIVE_ARCH=NO",
-                "ARCHS={}".format(plat.arch),
-                "HEADER_SEARCH_PATHS={}".format(
-                    join(self.ctx.include_dir, "common", "sdl2")),
-                "-sdk", plat.sdk,
-                "-project", "Xcode/SDL_image.xcodeproj",
-                "-target", "Static Library",
-                "-configuration", "Release")
+        shprint(
+            sh.xcodebuild,
+            self.ctx.concurrent_xcodebuild,
+            "ONLY_ACTIVE_ARCH=NO",
+            "ARCHS={}".format(plat.arch),
+            "HEADER_SEARCH_PATHS={}".format(
+                join(self.ctx.include_dir, "common", "sdl2")
+            ),
+            "-sdk",
+            plat.sdk,
+            "-project",
+            "Xcode/SDL_image.xcodeproj",
+            "-target",
+            "Static Library",
+            "-configuration",
+            "Release",
+        )
 
 
 recipe = LibSDL2ImageRecipe()

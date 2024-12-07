@@ -4,9 +4,9 @@ import sh
 
 
 plat_mapper = {
-    'iphoneos-arm64': 'ios64-xcrun',
-    'iphonesimulator-x86_64': 'iossimulator-xcrun',
-    'iphonesimulator-arm64': 'iossimulator-xcrun',
+    "iphoneos-arm64": "ios64-xcrun",
+    "iphonesimulator-x86_64": "iossimulator-xcrun",
+    "iphonesimulator-arm64": "iossimulator-xcrun",
 }
 
 

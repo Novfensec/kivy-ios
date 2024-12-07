@@ -17,7 +17,7 @@ class FlaskRecipe(PythonRecipe):
         hostpython = sh.Command(self.ctx.hostpython)
         build_env = plat.get_env()
         dest_dir = join(self.ctx.dist_dir, "root", "python")
-        build_env['PYTHONPATH'] = self.ctx.site_packages_dir
+        build_env["PYTHONPATH"] = self.ctx.site_packages_dir
         shprint(hostpython, "setup.py", "install", "--prefix", dest_dir, _env=build_env)
 
 

@@ -2,6 +2,7 @@
 This module houses context managers to assist in the managing of state during
 kivy-ios builds.
 """
+
 from logging import getLogger
 from contextlib import contextmanager
 from os import getcwd, chdir, environ

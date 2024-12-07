@@ -32,7 +32,9 @@ class PillowRecipe(CythonRecipe):
         env["LIBRARY_PATH"] = join(plat.sysroot, "usr", "lib")
         env["CFLAGS"] += " ".join(
             [
-                " -I{}".format(join(self.ctx.dist_dir, "include", plat.name, "freetype"))
+                " -I{}".format(
+                    join(self.ctx.dist_dir, "include", plat.name, "freetype")
+                )
                 + " -I{}".format(
                     join(self.ctx.dist_dir, "include", plat.name, "libjpeg")
                 )
@@ -40,9 +42,9 @@ class PillowRecipe(CythonRecipe):
             ]
         )
         env["PATH"] = os.environ["PATH"]
-        env[
-            "PKG_CONFIG"
-        ] = "ios-pkg-config"  # ios-pkg-config does not exists, is needed to disable the pkg-config usage.
+        env["PKG_CONFIG"] = (
+            "ios-pkg-config"  # ios-pkg-config does not exists, is needed to disable the pkg-config usage.
+        )
         return env
 
     def build_platform(self, plat):

@@ -17,11 +17,25 @@ class MarkupSafeRecipe(PythonRecipe):
         hostpython = sh.Command(self.ctx.hostpython)
         build_env = plat.get_env()
         dest_dir = join(self.ctx.dist_dir, "root", "python3")
-        build_env['PYTHONPATH'] = self.ctx.site_packages_dir
+        build_env["PYTHONPATH"] = self.ctx.site_packages_dir
         cmd = sh.Command("sed")
         shprint(cmd, "-i", "", "s/,.*Feature//g", "./setup.py", _env=build_env)
-        shprint(cmd, "-i", "", "/^speedups = Feature/,/^)$/s/.*//g", "./setup.py", _env=build_env)
-        shprint(cmd, "-i", "", "s/features\['speedups'\].*=.*speedups/pass/g", "./setup.py", _env=build_env)  # noqa: W605
+        shprint(
+            cmd,
+            "-i",
+            "",
+            "/^speedups = Feature/,/^)$/s/.*//g",
+            "./setup.py",
+            _env=build_env,
+        )
+        shprint(
+            cmd,
+            "-i",
+            "",
+            "s/features\['speedups'\].*=.*speedups/pass/g",
+            "./setup.py",
+            _env=build_env,
+        )  # noqa: W605
         shprint(hostpython, "setup.py", "install", "--prefix", dest_dir, _env=build_env)
 
 

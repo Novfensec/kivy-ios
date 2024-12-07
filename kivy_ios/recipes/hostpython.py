@@ -11,6 +11,7 @@ class HostpythonAliasRecipe(Recipe):
     Note this recipe was created to handle both hostpython2 and hostpython3.
     As hostpython2 support was dropped, this could probably be simplified.
     """
+
     is_alias = True
 
     def init_after_import(self, ctx):

@@ -10,19 +10,29 @@ class KivyRecipe(CythonRecipe):
     version = "2.3.0"
     url = "https://github.com/kivy/kivy/archive/{version}.zip"
     library = "libkivy.a"
-    depends = ["sdl2", "sdl2_image", "sdl2_mixer", "sdl2_ttf", "ios",
-               "pyobjus", "python"]
+    depends = [
+        "sdl2",
+        "sdl2_image",
+        "sdl2_mixer",
+        "sdl2_ttf",
+        "ios",
+        "pyobjus",
+        "python",
+    ]
     python_depends = ["certifi", "charset-normalizer", "idna", "requests", "urllib3"]
     pbx_frameworks = ["OpenGLES", "Accelerate", "CoreMedia", "CoreVideo"]
     pre_build_ext = True
 
     def get_recipe_env(self, plat):
         env = super().get_recipe_env(plat)
-        env["KIVY_SDL2_PATH"] = ":".join([
-            join(self.ctx.dist_dir, "include", "common", "sdl2"),
-            join(self.ctx.dist_dir, "include", "common", "sdl2_image"),
-            join(self.ctx.dist_dir, "include", "common", "sdl2_ttf"),
-            join(self.ctx.dist_dir, "include", "common", "sdl2_mixer")])
+        env["KIVY_SDL2_PATH"] = ":".join(
+            [
+                join(self.ctx.dist_dir, "include", "common", "sdl2"),
+                join(self.ctx.dist_dir, "include", "common", "sdl2_image"),
+                join(self.ctx.dist_dir, "include", "common", "sdl2_ttf"),
+                join(self.ctx.dist_dir, "include", "common", "sdl2_mixer"),
+            ]
+        )
         return env
 
     def build_platform(self, plat):
@@ -37,6 +47,7 @@ class KivyRecipe(CythonRecipe):
             for line in lines[:]:
                 if pattern in line:
                     lines.remove(line)
+
         with open(pyconfig) as fd:
             lines = fd.readlines()
         _remove_line(lines, "flags['libraries'] = ['GLESv2']")

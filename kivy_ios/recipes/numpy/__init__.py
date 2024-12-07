@@ -34,8 +34,10 @@ class NumpyRecipe(CythonRecipe):
 
     def build_platform(self, plat):
         super().build_platform(plat)
-        sh.cp(sh.glob(join(self.build_dir, "build", "temp.*", "libnpy*.a")),
-              self.build_dir)
+        sh.cp(
+            sh.glob(join(self.build_dir, "build", "temp.*", "libnpy*.a")),
+            self.build_dir,
+        )
 
     def reduce_python_package(self):
         dest_dir = join(self.ctx.site_packages_dir, "numpy")

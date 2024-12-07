@@ -15,7 +15,7 @@ class Hostpython3Recipe(HostRecipe):
     url = "https://www.python.org/ftp/python/{version}/Python-{version}.tgz"
     depends = ["hostopenssl"]
     optional_depends = []
-    build_subdir = 'native-build'
+    build_subdir = "native-build"
 
     def init_with_ctx(self, ctx):
         super().init_with_ctx(ctx)
@@ -43,16 +43,20 @@ class Hostpython3Recipe(HostRecipe):
         sdk_path = sh.xcrun("--sdk", "macosx", "--show-sdk-path").strip()
 
         build_env = self.ctx.env.copy()
-        ccache = (build_env["CCACHE"] + ' ') if 'CCACHE' in build_env else ''
+        ccache = (build_env["CCACHE"] + " ") if "CCACHE" in build_env else ""
         build_env["CC"] = ccache + "clang -Qunused-arguments -fcolor-diagnostics"
-        build_env["LDFLAGS"] = " ".join([
+        build_env["LDFLAGS"] = " ".join(
+            [
                 "-lsqlite3",
                 "-lffi",
-                ])
-        build_env["CFLAGS"] = " ".join([
+            ]
+        )
+        build_env["CFLAGS"] = " ".join(
+            [
                 "--sysroot={}".format(sdk_path),
                 "-mmacosx-version-min=10.12",
-                ])
+            ]
+        )
         return build_env
 
     def build_platform(self, plat):
@@ -64,28 +68,34 @@ class Hostpython3Recipe(HostRecipe):
         os.makedirs(build_subdir, exist_ok=True)
 
         with cd(build_subdir):
-            shprint(configure,
-                    "ac_cv_func_preadv=no",
-                    "ac_cv_func_pwritev=no",
-                    "ac_cv_func_sendfile=no",
-                    "--prefix={}".format(join(self.ctx.dist_dir, "hostpython3")),
-                    "--with-openssl={}".format(join(self.ctx.dist_dir, 'hostopenssl')),
-                    _env=build_env)
-        shprint(sh.make, "-C", build_subdir, self.ctx.concurrent_make,
-                _env=build_env)
+            shprint(
+                configure,
+                "ac_cv_func_preadv=no",
+                "ac_cv_func_pwritev=no",
+                "ac_cv_func_sendfile=no",
+                "--prefix={}".format(join(self.ctx.dist_dir, "hostpython3")),
+                "--with-openssl={}".format(join(self.ctx.dist_dir, "hostopenssl")),
+                _env=build_env,
+            )
+        shprint(sh.make, "-C", build_subdir, self.ctx.concurrent_make, _env=build_env)
 
     def install(self):
         plat = list(self.platforms_to_build)[0]
         build_env = self.get_build_env()
         build_subdir = self.get_build_subdir(plat)
         build_env["PATH"] = os.environ["PATH"]
-        shprint(sh.make, self.ctx.concurrent_make,
-                "-C", build_subdir,
-                "install",
-                _env=build_env)
+        shprint(
+            sh.make,
+            self.ctx.concurrent_make,
+            "-C",
+            build_subdir,
+            "install",
+            _env=build_env,
+        )
         shutil.copy(
             join(self.ctx.dist_dir, "hostpython3", "bin", "python3"),
-            join(self.ctx.dist_dir, "hostpython3", "bin", "python"))
+            join(self.ctx.dist_dir, "hostpython3", "bin", "python"),
+        )
 
         # hostpython3 installs bundled versions of `pip`
         # and `setuptools` in `lib/python3.x/site-packages`.

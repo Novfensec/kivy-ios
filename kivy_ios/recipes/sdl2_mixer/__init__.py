@@ -15,14 +15,23 @@ class LibSDL2MixerRecipe(Recipe):
         # endian.h is in /usr/include/machine/ (Since MacOs Mojave?)
         # header is needed by libvorbis, so We're adding that folder
         # to HEADER_SEARCH_PATHS
-        shprint(sh.xcodebuild, self.ctx.concurrent_xcodebuild,
-                "ONLY_ACTIVE_ARCH=NO",
-                "ARCHS={}".format(plat.arch),
-                "HEADER_SEARCH_PATHS=$HEADER_SEARCH_PATHS /usr/include/machine {} ".format(" ".join(plat.include_dirs)),
-                "-sdk", plat.sdk,
-                "-project", "Xcode/SDL_mixer.xcodeproj",
-                "-target", "Static Library",
-                "-configuration", "Release")
+        shprint(
+            sh.xcodebuild,
+            self.ctx.concurrent_xcodebuild,
+            "ONLY_ACTIVE_ARCH=NO",
+            "ARCHS={}".format(plat.arch),
+            "HEADER_SEARCH_PATHS=$HEADER_SEARCH_PATHS /usr/include/machine {} ".format(
+                " ".join(plat.include_dirs)
+            ),
+            "-sdk",
+            plat.sdk,
+            "-project",
+            "Xcode/SDL_mixer.xcodeproj",
+            "-target",
+            "Static Library",
+            "-configuration",
+            "Release",
+        )
 
 
 recipe = LibSDL2MixerRecipe()

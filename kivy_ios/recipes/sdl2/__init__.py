@@ -8,9 +8,17 @@ class LibSDL2Recipe(Recipe):
     library = "Xcode/SDL/build/Release-{plat.sdk}/libSDL2.a"
     include_dir = "include"
     pbx_frameworks = [
-        "OpenGLES", "AudioToolbox", "QuartzCore", "CoreGraphics",
-        "CoreMotion", "GameController", "AVFoundation", "Metal",
-        "UIKit", "CoreHaptics"]
+        "OpenGLES",
+        "AudioToolbox",
+        "QuartzCore",
+        "CoreGraphics",
+        "CoreMotion",
+        "GameController",
+        "AVFoundation",
+        "Metal",
+        "UIKit",
+        "CoreHaptics",
+    ]
 
     def prebuild_platform(self, plat):
         if self.has_marker("patched"):
@@ -21,14 +29,21 @@ class LibSDL2Recipe(Recipe):
 
     def build_platform(self, plat):
         env = plat.get_env()
-        shprint(sh.xcodebuild, self.ctx.concurrent_xcodebuild,
-                "ONLY_ACTIVE_ARCH=NO",
-                "ARCHS={}".format(plat.arch),
-                "CC={}".format(env['CC']),
-                "-sdk", plat.sdk,
-                "-project", "Xcode/SDL/SDL.xcodeproj",
-                "-target", "Static Library-iOS",
-                "-configuration", "Release")
+        shprint(
+            sh.xcodebuild,
+            self.ctx.concurrent_xcodebuild,
+            "ONLY_ACTIVE_ARCH=NO",
+            "ARCHS={}".format(plat.arch),
+            "CC={}".format(env["CC"]),
+            "-sdk",
+            plat.sdk,
+            "-project",
+            "Xcode/SDL/SDL.xcodeproj",
+            "-target",
+            "Static Library-iOS",
+            "-configuration",
+            "Release",
+        )
 
 
 recipe = LibSDL2Recipe()

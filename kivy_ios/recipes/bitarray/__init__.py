@@ -25,21 +25,28 @@ class BitarrayRecipe(Recipe):
     def build_platform(self, plat):
         build_env = self.get_bitarray_env(plat)
         hostpython = sh.Command(self.ctx.hostpython)
-        #self.apply_patch("zbarlight_hardcode_version.patch")
+        # self.apply_patch("zbarlight_hardcode_version.patch")
         shprint(hostpython, "setup.py", "build", _env=build_env)
         self.biglink()
 
     def install(self):
-        source = next(pathlib.Path(
-            self.get_build_dir(list(self.platforms_to_build)[0]),
-            "build"
-        ).glob("lib.*")) / "bitarray"
-        destination = next(pathlib.Path(
-            self.ctx.dist_dir,
-            "root",
-            "python3",
-            "lib"
-        ).glob("python3.*")) / "site-packages" / "bitarray"
+        source = (
+            next(
+                pathlib.Path(
+                    self.get_build_dir(list(self.platforms_to_build)[0]), "build"
+                ).glob("lib.*")
+            )
+            / "bitarray"
+        )
+        destination = (
+            next(
+                pathlib.Path(self.ctx.dist_dir, "root", "python3", "lib").glob(
+                    "python3.*"
+                )
+            )
+            / "site-packages"
+            / "bitarray"
+        )
 
         shutil.rmtree(destination, ignore_errors=True)
         shutil.copytree(source, destination)
