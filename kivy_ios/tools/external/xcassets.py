@@ -333,33 +333,33 @@ def icon(image_xcassets, image_fn):
             # Spotlight - iOS 5,6
             # Settings - iOS 5-8
             # 29pt - 1x,2x,3x
-            ("87", None, "Icon87.png"),
-            ("58", None, "Icon58.png"),
-            ("29", "Icon58.png", "Icon29.png"),
+            ("87 87", None, "Icon87.png"),
+            ("58 58", None, "Icon58.png"),
+            ("29 29", "Icon58.png", "Icon29.png"),
             # iPhone notification
             # 20pt - 2x,3x
             # ("40", None, "Icon40.png"),
-            ("60", None, "Icon60.png"),
+            ("60 60", None, "Icon60.png"),
             # iPhone
             # Spotlight - iOS 7-8
             # 40pt 2x,3x
-            ("120", None, "Icon120.png"),
-            ("80", None, "Icon80.png"),
+            ("120 120", None, "Icon120.png"),
+            ("80 80", None, "Icon80.png"),
             # iPhone
             # App - iOS 5,6
             # 57pt 1x,2x
-            ("114", None, "Icon114.png"),
-            ("57", "Icon114.png", "Icon57.png"),
+            ("114 114", None, "Icon114.png"),
+            ("57 57", "Icon114.png", "Icon57.png"),
             # iPhone
             # App - iOS 7,8
             # 60pt 2x,3x
-            ("180", None, "Icon180.png"),
+            ("180 180", None, "Icon180.png"),
             # ("120", None, "Icon120.png # duplicate"),
             # iPad
             # Notifications
             # 20pt 1x,2x
-            ("20", "Icon80.png", "Icon20.png"),
-            ("40", "Icon80.png", "Icon40.png"),
+            ("20 20", "Icon80.png", "Icon20.png"),
+            ("40 40", "Icon80.png", "Icon40.png"),
             # iPad
             # Settings iOS 5-8
             # ("58", None, "Icon58.png # duplicate"),
@@ -368,26 +368,26 @@ def icon(image_xcassets, image_fn):
             # Spotlight iOS 7,8
             # 40pt 1x,2x
             # ("80", None, "Icon80.png # duplicate"),
-            ("40", "Icon80.png", "Icon40.png"),
+            # ("40", "Icon80.png", "Icon40.png" # duplicate),
             # iPad
             # Spotlight iOS 5,6
             # 50pt 1x,2x
-            ("100", None, "Icon100.png"),
-            ("50", "Icon100.png", "Icon50.png"),
+            ("100 100", None, "Icon100.png"),
+            ("50 50", "Icon100.png", "Icon50.png"),
             # iPad
             # App iOS 5,6
             # 72pt 1x,2x
-            ("144", None, "Icon144.png"),
-            ("72", "Icon144.png", "Icon72.png"),
+            ("144 144", None, "Icon144.png"),
+            ("72 72", "Icon144.png", "Icon72.png"),
             # iPad
             # App iOS 7,8
             # 76pt 1x,2x
-            ("152", None, "Icon152.png"),
-            ("76", "Icon152.png", "Icon76.png"),
+            ("152 152", None, "Icon152.png"),
+            ("76 76", "Icon152.png", "Icon76.png"),
             # iPad
             # App iOS 9
             # 83.5pt 2x
-            ("167", None, "Icon167.png"),
+            ("167 167", None, "Icon167.png"),
             # CarPlay
             # App iOS 8
             # 120pt 1x
@@ -395,8 +395,8 @@ def icon(image_xcassets, image_fn):
             # Apple Watch
             # Notification Center
             # 38mm, 42mm
-            ("48", None, "Icon48.png"),
-            ("55", None, "Icon55.png"),
+            ("48 48", None, "Icon48.png"),
+            ("55 55", None, "Icon55.png"),
             # Apple Watch
             # Companion Settings
             # 29pt 2x,3x
@@ -408,35 +408,34 @@ def icon(image_xcassets, image_fn):
             # ("80", None, "Icon80.png # duplicate"),
             # Apple Watch
             # Long Look (42mm)
-            ("88", None, "Icon88.png"),
+            ("88 88", None, "Icon88.png"),
             # Apple Watch
             # Short Look
             # 38mm, 42mm, 44mm
-            ("172", None, "Icon172.png"),
-            ("196", None, "Icon196.png"),
-            ("216", None, "Icon216.png"),
+            ("172 172", None, "Icon172.png"),
+            ("196 196", None, "Icon196.png"),
+            ("216 216", None, "Icon216.png"),
             # OS X
             # 512pt 1x,2x
-            ("1024", None, "Icon1024.png"),
-            ("512", "Icon1024.png", "Icon512.png"),
+            ("1024 1024", None, "Icon1024.png"),
+            ("512 512", "Icon1024.png", "Icon512.png"),
             # OS X
             # 256pt 1x,2x
             # ("512", "Icon1024.png", "Icon512.png # duplicate"),
-            ("256", "Icon512.png", "Icon256.png"),
+            ("256 256", "Icon512.png", "Icon256.png"),
             # OS X
             # 128pt 1x,2x
             # ("256", "Icon512.png", "Icon256.png # duplicate"),
-            ("128", "Icon256.png", "Icon128.png"),
+            ("128 128", "Icon256.png", "Icon128.png"),
             # OS X
             # 32pt 1x,2x
-            ("64", "Icon128.png", "Icon64.png"),
-            ("32", "Icon64.png", "Icon32.png"),
+            ("64 64", "Icon128.png", "Icon64.png"),
+            ("32 32", "Icon64.png", "Icon32.png"),
             # OS X
             # 16pt 1x,2x
             # ("32", "Icon64.png", "Icon32.png # duplicate"),
-            ("16", "Icon32.png", "Icon16.png"),
+            ("16 16", "Icon32.png", "Icon16.png"),
         )
-
         _generate("AppIcon.appiconset", image_xcassets, image_fn, options, icon=True)
 
 
@@ -518,6 +517,5 @@ def _generate(d, image_xcassets, image_fn, options, icon=False):
             args += ["--out", join(image_xcassets, d, out_fn)]
             print("sips", " ".join(args))
             sh.sips(*args)
-        else:
-            size = [int(x) for x in c.split()]
-            _buildimage(filename, join(image_xcassets, d, out_fn), size)
+        size = [int(x) for x in c.split()]
+        _buildimage(filename, join(image_xcassets, d, out_fn), size)
